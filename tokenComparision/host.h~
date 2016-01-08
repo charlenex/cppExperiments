@@ -1,0 +1,14 @@
+#include <string>
+#include <vector>
+#include <iostream>
+
+class token{
+public:
+	std::string data;
+	long count;
+	token(){data = ""; count = 0};
+
+	void operator > (token source) {return data > source.data;}
+	void operator < (token source) {return data < source.data;}
+	void operator == (token source) {return data == source.data;}
+};
