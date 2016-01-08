@@ -20,5 +20,11 @@ int main(int argc, char* argv[]){
 		inFileTemp.close();
 	}
 	hostList.close();
+	int sz = list.size();
+	for (int i = 0; i < sz; i++){
+		for (int j = i + 1; j < sz; j++){
+			std::cout << list[i].compare(list[j]) << std::end;
+		}
+	}
 	return 0;
 }
