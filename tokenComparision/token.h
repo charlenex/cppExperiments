@@ -24,6 +24,7 @@ public:
 	bool operator > (const token source) {return data > source.data;}
 	bool operator < (const token source) {return data < source.data;}
 	bool operator == (const token source) {return data == source.data;}
+	void operator = (const token other) {data = other.data; count = other.count;}
 };
 
 class tokenList{
@@ -55,8 +56,22 @@ public:
 
 	std::string compare(tokenList& other){
 		long total = 0, sim = 0;
+		int track1 = 0, track2 = 0;
 		while (true){
-			int track1 = 0, track2 = 0;
+			if (track1 == list.size()){
+					while (track2 < other.list.size()){
+						total = total + other.list[track2].count;
+						track2++;
+					}
+					break;
+			}
+			if (track2 == other.list.size()){
+					while (track1 < list.size()){
+						total = total + list[track1].count;
+						track1++;
+					}
+					break;
+			}
 			if(list[track1] > other.list[track2]){
 				total = total + other.list[track2].count;
 				track2++;
@@ -74,25 +89,18 @@ public:
 					track2++;
 				}
 			}
-
-			if (track1 == list.size()){
-					while (track2 < other.list.size()){
-						total = total + other.list[track2].count;
-						track2++;
-					}
-					break;
-			}
-			if (track2 == other.list.size()){
-					while (track1 < list.size()){
-						total = total + list[track1].count;
-						track1++;
-					}
-					break;
-			}
+			
 			
 		}
 		std::ostringstream sstr;
-		sstr << host << " " << other.host << " " << total << " " << sim << " " << long(sim*100/total);
+		sstr << host << " " << other.host << " " << total << " " << sim << " " << double(double(sim)*100/double(total));
 		return sstr.str();
+	}
+
+	void operator = (tokenList const other){
+		for(auto& tk : other.list){
+			token temp = tk;
+			list.push_back(temp);
+		}
 	}
 };
