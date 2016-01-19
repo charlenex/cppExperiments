@@ -31,10 +31,11 @@ class tokenList{
 public:
 	std::vector<token> list;
 	std::string host;
+	long sumCount;
 
 	tokenList(){host = "";}
-	tokenList(std::string str){host = str;}
-	~tokenList(){}
+	tokenList(std::string str){host = str; sumCount = 0;}
+	~tokenList(){sumCount = 0;}
 	void append(std::string str, long num){
 		token x(str,num);
 		list.push_back(x);
@@ -43,6 +44,7 @@ public:
 	friend std::istream& operator >> (std::istream& ins, tokenList& target){
 		token x;
 		ins >> x;
+		target.sumCount = target.sumCount + x.count;
 		target.list.push_back(x);
 		return ins;
 	}
@@ -55,6 +57,9 @@ public:
 	}
 
 	std::string compare(tokenList& other){
+		if (sumCount/other.sumCount > 3 || sumCount/other.sumCount > 1/3){
+			return "";
+		}
 		long total = 0, sim = 0;
 		int track1 = 0, track2 = 0;
 		while (true){
@@ -93,8 +98,14 @@ public:
 			
 		}
 		std::ostringstream sstr;
-		sstr << host << " " << other.host << " " << total << " " << sim << " " << double(double(sim)*100/double(total));
-		return sstr.str();
+		double percent = double(double(sim)*100/double(total));
+		if(percent < 30){
+			return "";
+		}
+		else{
+			sstr << host << " " << other.host << " " << total << " " << sim << " " << percent;
+			return sstr.str();
+		}
 	}
 
 	void operator = (tokenList const other){

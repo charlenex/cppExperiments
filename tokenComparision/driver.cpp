@@ -9,7 +9,10 @@ void compare(int threadNum, int step, int sz, std::vector<tokenList>& list, std:
 	std::ofstream outFile(outName);
 	for (int i = threadNum; i < sz; i += step){
 		for (int j = i + 1; j < sz; j++){
-			outFile << list[i].compare(list[j]) << std::endl;
+			std::string tempStr = list[i].compare(list[j]);
+			if (tempStr != ""){
+				outFile << tempStr << std::endl;
+			}
 		}
 	}
 	//std::cout << "Done: " << threadNum << std::endl;
@@ -37,7 +40,9 @@ int main(int argc, char* argv[]){
 		while (inFileTemp){
 			inFileTemp >> tokenTemp;
 		}
-		list.push_back(tokenTemp);
+		if(tokenTemp.sumCount > 50){
+			list.push_back(tokenTemp);
+		}
 		inFileTemp.close();
 	}
 	hostList.close();
