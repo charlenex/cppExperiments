@@ -63,6 +63,6 @@ int main(int argc, char* argv[]){
 	}*/
 
 	hostList.close();
-	outFile.close();
+	//outFile.close();
 	return 0;
 }
